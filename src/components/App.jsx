@@ -1,5 +1,9 @@
 import { Component } from 'react';
-import { Container, Button, Title, List } from './App.styled';
+import { Container } from './App.styled';
+import { Section } from './Section/Section';
+import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
+import { Statistics } from './Statistics/Statistics';
+import { Notification } from './Notification/Notification';
 
 export class App extends Component {
   state = {
@@ -16,38 +20,44 @@ export class App extends Component {
     });
   };
 
-  countTotalFeedback = () =>
-    Object.values(this.state).reduce((sum, value) => (sum += value), 0);
+  countTotalFeedback = feedBacks =>
+    feedBacks.reduce((sum, value) => (sum += value), 0);
+
+  countPositiveFeedbackPercentage = feedBacks => {
+    const positiveFeedBackPercentage =
+      (feedBacks[0] / this.countTotalFeedback(feedBacks)) * 100;
+    return isNaN(positiveFeedBackPercentage)
+      ? '0'
+      : Math.round(positiveFeedBackPercentage * 10) / 10;
+  };
 
   render() {
-    const a = 'abc';
-    console.log(a);
+    const feedbackValues = Object.values(this.state);
+    const total = this.countTotalFeedback(feedbackValues);
+    const positivePercentage =
+      this.countPositiveFeedbackPercentage(feedbackValues);
+
     return (
       <Container>
-        <Title>Please leave feedback</Title>
-        {Object.keys(this.state).map(key => (
-          <Button key={key} onClick={() => this.handlClickFeedback(key)}>
-            {key}
-          </Button>
-        ))}
-        <Title>Statistics</Title>
-        <List>
-          {Object.keys(this.state).map(key => (
-            <li key={key}>
-              {key}: {this.state[key]}
-            </li>
-          ))}
-          <li>Total: {this.countTotalFeedback()}</li>
-        </List>
+        <Section title="Please leave feedback">
+          <FeedbackOptions
+            options={Object.keys(this.state)}
+            onLeaveFeedback={this.handlClickFeedback}
+          />
+        </Section>
+
+        <Section title="Statistics">
+          {!total ? (
+            <Notification message="There is no feedback" />
+          ) : (
+            <Statistics
+              stats={this.state}
+              total={total}
+              positivePercentage={positivePercentage}
+            />
+          )}
+        </Section>
       </Container>
     );
   }
 }
-
-// handleClick = (key) => {
-// this.setState(prevState => {
-//   return {
-//     [key]: prevState[key] +1,
-//   }})
-// }
-// {Object.keys(this.state).map => <button key={key} onClick{()=> this.handleClick(key)}>{key</button>}
