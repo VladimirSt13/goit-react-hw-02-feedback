@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import { List } from './Statistics.styled';
 
 export const Statistics = ({ stats, total, positivePercentage }) => (
@@ -11,3 +13,13 @@ export const Statistics = ({ stats, total, positivePercentage }) => (
     <li>Positive feedback: {positivePercentage}%</li>
   </List>
 );
+
+Statistics.prototype = {
+  stats: PropTypes.objectOf({
+    good: PropTypes.number.isRequired,
+    neutral: PropTypes.number.isRequired,
+    bad: PropTypes.number.isRequired,
+  }),
+  total: PropTypes.number.isRequired,
+  positivePercentage: PropTypes.number.isRequired,
+};
