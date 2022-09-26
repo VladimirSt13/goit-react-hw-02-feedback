@@ -10,7 +10,11 @@ export const Statistics = ({ stats, total, positivePercentage }) => (
       </li>
     ))}
     <li>Total: {total}</li>
-    <li>Positive feedback: {positivePercentage}%</li>
+    {positivePercentage ? (
+      <li>Positive feedback: {positivePercentage}%</li>
+    ) : (
+      ''
+    )}
   </List>
 );
 
