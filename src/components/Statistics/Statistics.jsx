@@ -18,7 +18,7 @@ export const Statistics = ({ stats, total, positivePercentage }) => (
   </List>
 );
 
-Statistics.prototype = {
+Statistics.propTypes = {
   stats: PropTypes.objectOf({
     good: PropTypes.number.isRequired,
     neutral: PropTypes.number.isRequired,

@@ -8,7 +8,7 @@ export const FeedbackOptions = ({ options, onLeaveFeedback }) =>
     </Button>
   ));
 
-FeedbackOptions.prototype = {
+FeedbackOptions.propTypes = {
   options: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   onLeaveFeedback: PropTypes.func.isRequired,
 };
